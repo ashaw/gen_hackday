@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130420155617) do
+ActiveRecord::Schema.define(:version => 20130421141958) do
 
   create_table "hospitals", :force => true do |t|
     t.string  "provider_number"
@@ -27,6 +27,19 @@ ActiveRecord::Schema.define(:version => 20130420155617) do
     t.float   "heart_attack_mortality_rate"
     t.float   "lat"
     t.float   "lng"
+    t.integer "heart_attack_patients"
+    t.integer "asprin_at_discharge"
+    t.integer "asprin_within_30min"
+    t.integer "fibrinolytic_medication"
+    t.integer "pci"
+    t.integer "ecg"
+    t.integer "asprin"
+    t.integer "blood_clot_medication"
+    t.integer "time_to_fibrinolysis"
+    t.boolean "emergency_department"
+    t.boolean "open"
+    t.integer "beds"
+    t.float   "heart_care_rating"
   end
 
 end
