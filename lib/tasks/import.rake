@@ -47,12 +47,22 @@ end
 
 task :ratings => :environment do 
   require 'csv'
+  NY_AVG = 97.95
   CSV.foreach("#{Rails.root.to_s}/db/initial/hospital_game_data.csv", :headers => true) do |row|
     if row["ID"] && h = Hospital.find_by_provider_number(row["ID"])
       h.open = row["OPEN/CLOSED"] == "Open" ? true : false
       h.emergency_department = row["EMERGENCY DEPARTMENT"] == "Yes" ? true : false
-      h.beds = row["AVAILABLE BEDS"].to_i
-      h.heart_care_rating = row["HEART CARE RATING"].to_f
+      h.beds = row["AVAILABLE BEDS"].to_s.length > 0 ? row["AVAILABLE BEDS"].to_i : nil
+      h.heart_care_rating = row["HEART CARE RATING"].to_s.length > 0 ? row["HEART CARE RATING"].to_f : nil
+      if h.heart_care_rating && h.heart_care_rating > (NY_AVG + 0.5)
+        h.hospital_rating_str = "Above average"
+      elsif h.heart_care_rating && h.heart_care_rating < (NY_AVG - 0.5)
+        h.hospital_rating_str = "Below average"
+      elsif h.heart_care_rating
+        h.hospital_rating_str = "About average"
+      else
+        h.hospital_rating_str = "Unknown"
+      end
       h.save
       p h
     end

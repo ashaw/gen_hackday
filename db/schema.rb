@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130421141958) do
+ActiveRecord::Schema.define(:version => 20130421144018) do
 
   create_table "hospitals", :force => true do |t|
     t.string  "provider_number"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20130421141958) do
     t.boolean "open"
     t.integer "beds"
     t.float   "heart_care_rating"
+    t.string  "hospital_rating_str"
   end
 
 end
