@@ -49,7 +49,15 @@ task :ratings => :environment do
   require 'csv'
   NY_AVG = 97.95
   CSV.foreach("#{Rails.root.to_s}/db/initial/hospital_game_data.csv", :headers => true) do |row|
-    if row["ID"] && h = Hospital.find_by_provider_number(row["ID"])
+    if row["ID"] && h = Hospital.find_or_initialize_by_provider_number(row["ID"])
+      if row["Address 1"].to_s.length > 0
+        # getting address from this sheet
+        h.address_1 = row["Address 1"]
+        h.city      = row["City"]
+        h.state     = row["State"]
+        h.zip_code  = row["Zip"]
+        h.county_name = row["County"]
+      end
       h.open = row["OPEN/CLOSED"] == "Open" ? true : false
       h.emergency_department = row["EMERGENCY DEPARTMENT"] == "Yes" ? true : false
       h.beds = row["AVAILABLE BEDS"].to_s.length > 0 ? row["AVAILABLE BEDS"].to_i : nil

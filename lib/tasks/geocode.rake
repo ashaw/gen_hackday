@@ -1,7 +1,7 @@
 task :geocode => :environment do
   require 'goog_geocoder'
 
-  Hospital.find_each do |hospital|
+  Hospital.where(:state => "NY", :county_name => ["NEW YORK", "KINGS", "QUEENS", "RICHMOND", "BRONX"]).each do |hospital|
     #next if hospital.geocode_accuracy # we've already geocoded
     puts "trying #{hospital.hospital_name}"
     goog = GoogGeocoder.new("#{hospital.address_1} #{hospital.address_2} #{hospital.address_3}, #{hospital.city}, #{hospital.state} #{hospital.zip_code}")
